@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+    <PackageReference Include="FirebaseAdminAuthentication.DependencyInjection" Version="1.1.0" />
+  </ItemGroup>
+</Project>

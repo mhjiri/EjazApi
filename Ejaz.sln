@@ -1,0 +1,55 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1705.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejaz", "Ejaz\Ejaz.csproj", "{1C40321B-C752-4707-AB90-5B97E0D92E68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{093BE4C9-E40F-4666-A226-85C64C262466}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{23998927-0AA6-414E-9AEE-5F32801CAE23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{6FDFEA3E-B567-4471-AABB-C7961AF5CE8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accessors", "Accessors\Accessors.csproj", "{EB33DC5D-D0C3-4453-9559-0F30A2D63638}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejaz-Client", "Ejaz-Client\Ejaz-Client.csproj", "{408EBF4C-78F5-4E25-B570-115F45E09037}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C40321B-C752-4707-AB90-5B97E0D92E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C40321B-C752-4707-AB90-5B97E0D92E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C40321B-C752-4707-AB90-5B97E0D92E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C40321B-C752-4707-AB90-5B97E0D92E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093BE4C9-E40F-4666-A226-85C64C262466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093BE4C9-E40F-4666-A226-85C64C262466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093BE4C9-E40F-4666-A226-85C64C262466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093BE4C9-E40F-4666-A226-85C64C262466}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23998927-0AA6-414E-9AEE-5F32801CAE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23998927-0AA6-414E-9AEE-5F32801CAE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23998927-0AA6-414E-9AEE-5F32801CAE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23998927-0AA6-414E-9AEE-5F32801CAE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FDFEA3E-B567-4471-AABB-C7961AF5CE8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FDFEA3E-B567-4471-AABB-C7961AF5CE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FDFEA3E-B567-4471-AABB-C7961AF5CE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FDFEA3E-B567-4471-AABB-C7961AF5CE8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB33DC5D-D0C3-4453-9559-0F30A2D63638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB33DC5D-D0C3-4453-9559-0F30A2D63638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB33DC5D-D0C3-4453-9559-0F30A2D63638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB33DC5D-D0C3-4453-9559-0F30A2D63638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408EBF4C-78F5-4E25-B570-115F45E09037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408EBF4C-78F5-4E25-B570-115F45E09037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408EBF4C-78F5-4E25-B570-115F45E09037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408EBF4C-78F5-4E25-B570-115F45E09037}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3075E166-895A-4A18-9664-9FD29806DBBE}
+	EndGlobalSection
+EndGlobal

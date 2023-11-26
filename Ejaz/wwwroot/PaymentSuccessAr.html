@@ -1,0 +1,87 @@
+<html lang="ar" style="-moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; background-color: #464646; margin: 0; padding: 0;">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <title>Ejaz Payment Gateway</title>
+</head>
+
+<body bgcolor="#ffffff" class="generic-template" style="-moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; margin: 0; padding: 0;">
+
+  <!-- Header Start -->
+  <!--<div class="bg-white header" bgcolor="#ffffff" style="background-color: white; width: 100%;">
+    <table align="center" bgcolor="#ffffff" style="border-left: 10px solid white; border-right: 10px solid white; max-width: 600px; width: 100%;">
+      <tr height="80">
+        <td align="left" class="vertical-align-middle" style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: middle;">
+          <div>
+            <label id="langId" for="lang">Change Language:</label>
+            <select onchange="val()" id="langChange">
+              <option value="en" >English</option>
+              <option value="ar">Arabic</option>
+            </select>
+          </div>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>-->
+
+  <!-- Content Start -->
+  <table align="center" bgcolor="#ffffff" cellpadding="0" cellspacing="0" cols="1" align="center" style="position: center; top: 0; bottom: 0; left: 0; right: 0; height:80%; width:100%">
+    <tr height="50">
+      <td colspan="3" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
+    </tr>
+    <tr align="center">
+      <td width="36" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: top;"></td>
+      <td class="text-primary" style="color: #F16522; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; vertical-align: center;">
+        <img src="https://i.pinimg.com/originals/a5/da/be/a5dabea9202dcfef09cb11340fd86192.gif" alt="GO" height="auto" width="auto" style="border: 0; font-size: 0; margin: 0; max-width: 100%; padding: 0; vertical-align: bottom; display:block">
+      </td>
+      <td width="36" style="color: white; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
+    </tr>
+    <tr align="center">
+      <td width="36" style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
+      <td class="text-primary" style="color: #F16522; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;">
+          <h3 id="id1" style="color: #464646;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 700; line-height: 34px; margin-bottom: 0; margin-top: 0;">ترقية الحساب</h3>
+      </td>
+    </tr>
+    <tr align="center">
+      <td width="36" style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
+      <td style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;">
+          <p id="id2" style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px; margin: 0;text-align: center;">تهانينا! لقد كان حسابك<p id="id3" style="text-align: center;">تمت الترقية بنجاح</p>
+        <p id="id4" style="text-align: center;">هذه الصفحة ستوجه إلى الصفحة الرئيسية</p>
+      </td>
+      <td width="36" style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
+    </tr>
+
+    <tr height="30">
+      <td colspan="3" style="color: #464646; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;"></td>
+    </tr>
+  </table>
+  <!-- Content End -->
+</body>
+
+<script>
+
+function val() {
+    //selectedLang = document.getElementById("langChange").value;
+	
+	//if(selectedLang == 'en')
+	//{
+		//id1.textContent = "Account Upgraded";
+		//id2.textContent = "Congratulations! Your account has been";
+		//id3.textContent = "upgraded Successfully.";
+		//id4.textContent = "This page will direct to the home page.";
+	//}
+	//else if(selectedLang == 'ar')
+	//{
+		id1.textContent = "ترقية الحساب";
+		id2.textContent = "تهانينا! لقد كان حسابك";
+		id3.textContent = "تمت الترقية بنجاح.";
+		id4.textContent = "هذه الصفحة ستوجه إلى الصفحة الرئيسية.";
+	//}
+    
+}
+</script>
+
+</html>
