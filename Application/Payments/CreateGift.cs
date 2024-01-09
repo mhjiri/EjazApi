@@ -58,9 +58,9 @@ namespace Application.Payments
                 }
 
                 GiftPayment giftPayment = _mpr.Map<GiftPayment>(req.GiftPayment);
-                giftPayment.Pm_Payer = user?.Id;
-                giftPayment.Pm_PayedBy = user?.UserName;
+                giftPayment.Pm_Creator = user?.Id; // Remove later because read from token
                 giftPayment.PM_CouponCode = new string(Guid.NewGuid().ToString().Take(8).ToArray());
+                giftPayment.Pm_Active = true;
 
                 _ctx.GiftPayments.Add(giftPayment);
 
@@ -72,7 +72,7 @@ namespace Application.Payments
 
                     giftPayment = await _ctx.GiftPayments
                         .Include(i => i.PaymentMethod)
-                        .Include(i => i.Subscriber)
+                        //.Include(i => i.Subscriber)
                         .Include(i => i.Subscription)
                         .Include(i => i.Creator)
                         .Where(s => s.Pm_ID == giftPayment.Pm_ID).FirstOrDefaultAsync(cancellationToken: cancellationToken);

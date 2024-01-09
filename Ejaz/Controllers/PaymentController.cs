@@ -84,10 +84,10 @@ namespace Ejaz.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("activateGiftPayment")]
-        public async Task<IActionResult> ActivateGiftPayment(Guid couponCode)
+        [HttpPut("activateGiftPayment/{couponCode}")]
+        public async Task<IActionResult> ActivateGiftPayment(string couponCode)
         {
-            if (couponCode.Equals(Guid.Empty))
+            if (string.IsNullOrEmpty(couponCode))
             {
                 return BadRequest("Please enter a valid Coupon code");
             }

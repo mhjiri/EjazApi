@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240109101713_GiftPayment")]
-    partial class GiftPayment
+    [Migration("20240109112031_GiftPayment.v1")]
+    partial class GiftPaymentv1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1751,12 +1751,6 @@ namespace Persistence.Migrations
                     b.Property<int>("Pm_Ordinal")
                         .HasColumnType("int");
 
-                    b.Property<string>("Pm_PayedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pm_Payer")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("Pm_Price")
                         .HasColumnType("float");
 
@@ -1765,9 +1759,6 @@ namespace Persistence.Migrations
 
                     b.Property<int>("Pm_Result")
                         .HasColumnType("int");
-
-                    b.Property<string>("Pm_Subscriber")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("Py_ID")
                         .HasColumnType("uniqueidentifier");
@@ -1778,8 +1769,6 @@ namespace Persistence.Migrations
                     b.HasKey("Pm_ID");
 
                     b.HasIndex("Pm_Creator");
-
-                    b.HasIndex("Pm_Subscriber");
 
                     b.HasIndex("Py_ID");
 
@@ -3643,10 +3632,6 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("Pm_Creator");
 
-                    b.HasOne("Domain.AppUser", "Subscriber")
-                        .WithMany()
-                        .HasForeignKey("Pm_Subscriber");
-
                     b.HasOne("Domain.PaymentMethod", "PaymentMethod")
                         .WithMany()
                         .HasForeignKey("Py_ID")
@@ -3662,8 +3647,6 @@ namespace Persistence.Migrations
                     b.Navigation("Creator");
 
                     b.Navigation("PaymentMethod");
-
-                    b.Navigation("Subscriber");
 
                     b.Navigation("Subscription");
                 });

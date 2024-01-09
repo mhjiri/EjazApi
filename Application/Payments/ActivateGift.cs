@@ -18,7 +18,7 @@ namespace Application.Payments
     {
         public class Command : IRequest<Result<PaymentDto>>
         {
-            public Guid CouponCode { get; set; }
+            public string CouponCode { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<PaymentDto>>
@@ -51,22 +51,26 @@ namespace Application.Payments
                 }
 
                 Payment payment = new Payment();
-                payment.Pm_Creator = giftedPayment.Pm_Payer;
+                payment.Pm_Days = giftedPayment.Pm_Days;
+                payment.Pm_DisplayPrice = giftedPayment.Pm_DisplayPrice;
+                payment.Pm_Price = giftedPayment.Pm_Price;
+                payment.Pm_RefernceID = giftedPayment?.Pm_RefernceID;
+                payment.Pm_Ordinal = giftedPayment.Pm_Ordinal;
+                payment.Pm_Creator = giftedPayment.Pm_Creator;
                 payment.Pm_Subscriber = subscriber.Id;
                 payment.Pm_ID = giftedPayment.Pm_ID;
                 payment.Py_ID = giftedPayment.Py_ID;
                 payment.Sb_ID = giftedPayment.Sb_ID;
+                payment.Pm_Subscriber = subscriber.Id;
 
                 if (!String.IsNullOrEmpty(subscriber.Id))
                 {
-                    payment.Pm_Subscriber = subscriber.Id;
                     subscriber.Us_SubscriptionExpiryDate = DateTime.Now.AddDays(payment.Pm_Days);
                     subscriber.Us_SubscriptionStartDate = DateTime.Now;
                     subscriber.Us_SubscriptionDays = payment.Pm_Days;
                 }
                 else
                 {
-                    payment.Pm_Subscriber = subscriber.Id;
                     subscriber.Us_SubscriptionExpiryDate = DateTime.Now.AddDays(payment.Pm_Days);
                 }
 

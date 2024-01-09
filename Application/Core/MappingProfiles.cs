@@ -359,8 +359,22 @@ namespace Application.Core
 
             CreateMap<AppUser, ProfileCmdDto>();
 
+            // Gift Payment
+            CreateMap<GiftPayment, GiftPaymentCmdDto>();
 
-            
+            CreateMap<GiftPaymentCmdDto, GiftPayment>();
+
+            CreateMap<GiftPayment, GiftPaymentDto>()
+                .ForMember(s => s.Pm_Subscriber, z => z.MapFrom(s => s.Pm_Creator))
+                //.ForMember(s => s.SubscriberName, z => z.MapFrom(s => s.PM_Recipient))
+                //.ForMember(s => s.SubscriberPhoneNumber, z => z.MapFrom(s => s.Subscriber.PhoneNumber))
+                //.ForMember(s => s.SubscriberEmail, z => z.MapFrom(s => s.Subscriber.Email))
+                .ForMember(s => s.PaymentMethod, z => z.MapFrom(s => s.PaymentMethod.Py_Title))
+                .ForMember(s => s.PaymentMethod_Ar, z => z.MapFrom(s => s.PaymentMethod.Py_Title_Ar))
+                .ForMember(s => s.Subscription, z => z.MapFrom(s => s.Subscription.Sb_Name))
+                .ForMember(s => s.Subscription_Ar, z => z.MapFrom(s => s.Subscription.Sb_Name_Ar))
+                .ForMember(s => s.Pm_Creator, z => z.MapFrom(s => s.Creator.Us_DisplayName));
+
         }
     }
 }
