@@ -12,8 +12,8 @@ namespace Application.Payments.Core
     {
         public Guid Pm_ID { get; set; }
 
-        public Guid? Py_ID { get; set; }
-        public Guid? Sb_ID { get; set; }
+        public Guid? Py_ID { get; set; } // Payment Method : Cash, Card, In-App
+        public Guid? Sb_ID { get; set; } // Subscription : Monthly, Yearly
 
         public string pm_Subscriber { get; set; }
 

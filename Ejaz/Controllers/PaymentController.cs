@@ -13,8 +13,7 @@ using System.Diagnostics;
 
 namespace Ejaz.Controllers
 {
-
-    
+   
     public class PaymentController : BaseApiController
     {
         [AllowAnonymous]
@@ -77,7 +76,26 @@ namespace Ejaz.Controllers
             return HandleResult(await mdtr.Send(new DeactivateBatch.Command { Ids = ids }));
         }
 
+        [AllowAnonymous]
+        [HttpPost("giftPayment")]
+        public async Task<IActionResult> GiftPayment(GiftPaymentCmdDto giftPayment)
+        {
+            return HandleResult(await mdtr.Send(new CreateGift.Command { GiftPayment = giftPayment }));
+        }
 
+        [AllowAnonymous]
+        [HttpPost("activateGiftPayment")]
+        public async Task<IActionResult> ActivateGiftPayment(Guid couponCode)
+        {
+            if (couponCode.Equals(Guid.Empty))
+            {
+                return BadRequest("Please enter a valid Coupon code");
+            }
+            else
+            {
+                return HandleResult(await mdtr.Send(new ActivateGift.Command { CouponCode = couponCode }));
+            }
+        }
 
     }
 }

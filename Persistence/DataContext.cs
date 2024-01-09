@@ -59,7 +59,7 @@ namespace Persistence
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ThematicArea> ThematicAreas { get; set; }
-
+        public DbSet<GiftPayment> GiftPayments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -254,7 +254,10 @@ namespace Persistence
             builder.Entity<ThematicArea>()
                 .Property(s => s.Th_CreatedOn).ValueGeneratedOnAdd();
 
-
+            builder.Entity<GiftPayment>()
+                .Property(s => s.Pm_ID).ValueGeneratedOnAdd();
+            builder.Entity<GiftPayment>()
+                .Property(s => s.PM_GiftedOn).ValueGeneratedOnAdd();
 
             var cascadeFKs = builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetForeignKeys())
