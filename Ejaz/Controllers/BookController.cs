@@ -134,8 +134,12 @@ namespace Ejaz.Controllers
             return HandleResult(await mdtr.Send(new DeactivateBatch.Command { Ids = ids }));
         }
 
-
-
+        [AllowAnonymous]
+        [HttpPost("suggestBook")]
+        public async Task<IActionResult> SuggestBook(SuggestBookCmd book)
+        {
+            return HandleResult(await mdtr.Send(new SuggestBook.Command { Book = book }));
+        }
     }
 }
 

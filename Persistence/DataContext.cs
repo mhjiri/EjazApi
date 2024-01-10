@@ -61,6 +61,8 @@ namespace Persistence
         public DbSet<ThematicArea> ThematicAreas { get; set; }
         public DbSet<GiftPayment> GiftPayments { get; set; }
 
+        public DbSet<SugggestBook> SugggestBook { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -258,6 +260,11 @@ namespace Persistence
                 .Property(s => s.Pm_ID).ValueGeneratedOnAdd();
             builder.Entity<GiftPayment>()
                 .Property(s => s.PM_GiftedOn).ValueGeneratedOnAdd();
+
+            builder.Entity<SugggestBook>()
+                .Property(s => s.Bk_ID).ValueGeneratedOnAdd();
+            builder.Entity<SugggestBook>()
+                .Property(s => s.Bk_CreatedOn).ValueGeneratedOnAdd();
 
             var cascadeFKs = builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetForeignKeys())
