@@ -61,7 +61,6 @@ namespace Application.Payments
                 payment.Pm_ID = giftedPayment.Pm_ID;
                 payment.Py_ID = giftedPayment.Py_ID;
                 payment.Sb_ID = giftedPayment.Sb_ID;
-                payment.Pm_Subscriber = subscriber.Id;
 
                 if (!String.IsNullOrEmpty(subscriber.Id))
                 {

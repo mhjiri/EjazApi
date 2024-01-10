@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240109112031_GiftPayment.v1")]
-    partial class GiftPaymentv1
+    [Migration("20240110065657_GiftEjaz.V1")]
+    partial class GiftEjazV1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
