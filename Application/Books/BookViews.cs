@@ -1,21 +1,21 @@
-﻿using System.Diagnostics;
-using Application.Core;
+﻿using Application.Core;
 using Application.Interfaces;
-using AutoMapper;
-using Azure.Core;
-using Domain;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.Books
 {
-    public class Deactivate
+    public class BookViews
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Guid Id { get; set; }
+            public Guid BookId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -31,22 +31,18 @@ namespace Application.Books
 
             public async Task<Result<Unit>> Handle(Command req, CancellationToken cancellationToken)
             {
-                var book = await _ctx.Books.FindAsync(new object[] { req.Id }, cancellationToken: cancellationToken);
+                var book = await _ctx.Books.FindAsync(new object[] { req.BookId }, cancellationToken: cancellationToken);
 
                 if (book == null) return null;
 
-                var user = await _ctx.Users.FirstOrDefaultAsync(s =>
-                    s.UserName == _userAccessor.GetUsername() && !s.Us_Deleted, cancellationToken: cancellationToken);
-
-
-                book.Bk_Modifier = user.Id;
-                book.Bk_ModifyOn = DateTime.Now;
-                book.Bk_Active = false;
+                book.Bk_ViewCount++;
+                book.Bk_LastViewedOn = DateTime.Now;
 
                 var result = await _ctx.SaveChangesAsync(cancellationToken) > 0;
 
-                if (!result) return Result<Unit>.Failure("Failed to deactivate Book");
-                return Result<Unit>.Success(Unit.Value); 
+                if (!result) return Result<Unit>.Failure("Failed to update Book viewed status.");
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

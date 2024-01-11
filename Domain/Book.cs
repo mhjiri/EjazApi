@@ -33,6 +33,9 @@ namespace Domain
         public DateTime? Bk_ModifyOn { get; set; }
         public string Bk_Modifier { get; set; }
 
+        public int Bk_ViewCount { get; set; }
+        public DateTime? Bk_LastViewedOn { get; set; }
+
         //[ForeignKey("Md_AudioEn_ID")]
         //public Medium? Audio_En { get; set; }
         //[ForeignKey("Md_AudioAr_ID")]
