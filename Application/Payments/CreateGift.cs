@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Emails.Interfaces;
 using Application.Interfaces;
 using Application.Payments.Core;
 using AutoMapper;
@@ -27,12 +28,14 @@ namespace Application.Payments
             private readonly DataContext _ctx;
             private readonly IMapper _mpr;
             private readonly IUserAccessor _userAccessor;
+            private IEmailService _emailService;
 
-            public Handler(DataContext ctx, IMapper mpr, IUserAccessor userAccessor)
+            public Handler(DataContext ctx, IMapper mpr, IUserAccessor userAccessor, IEmailService emailService)
             {
                 _userAccessor = userAccessor;
                 _ctx = ctx;
                 _mpr = mpr;
+                _emailService = emailService;
             }
 
             public class CommandValidator : AbstractValidator<Command>
@@ -58,9 +61,11 @@ namespace Application.Payments
                 }
 
                 GiftPayment giftPayment = _mpr.Map<GiftPayment>(req.GiftPayment);
-                giftPayment.Pm_Creator = user?.Id; // Remove later because read from token
+                giftPayment.Pm_Creator = user?.Id;
+                giftPayment.Pm_CreatorName = user?.Us_DisplayName;
                 giftPayment.PM_CouponCode = new string(Guid.NewGuid().ToString().Take(8).ToArray());
                 giftPayment.Pm_Active = true;
+                giftPayment.PM_MailSent = true;
 
                 _ctx.GiftPayments.Add(giftPayment);
 
@@ -69,6 +74,16 @@ namespace Application.Payments
                 if (result)
                 {
                     // TO DO : Integrate Email
+                    var isEmailSent = await _emailService.SendEmailAsync(req.GiftPayment.PM_Recipient,
+                        $"{giftPayment.Pm_CreatorName} sent you Ejaz-Gift Voucher.",
+                        $"<p>Dear User,</p><p> {giftPayment.Pm_CreatorName} has gifted you an 'Ejaz Subscription'.<p> <strong>Coupon Code : {giftPayment.PM_CouponCode}</strong></p>. <p>**Please login with <strong>{req.GiftPayment.PM_Recipient}</strong> email address to use Ejaz subscription.**.</p>.</p><p>Regards,</p><p>Team Ejaz</p>"
+                        );
+
+                    if (!isEmailSent) // Mail Not sent, Update db
+                    {
+                        giftPayment.PM_MailSent = false;
+                        await _ctx.SaveChangesAsync(cancellationToken);
+                    }
 
                     giftPayment = await _ctx.GiftPayments
                         .Include(i => i.PaymentMethod)

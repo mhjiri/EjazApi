@@ -9,6 +9,8 @@ using Persistence;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using FirebaseAdminAuthentication.DependencyInjection.Extensions;
+using Application.Emails;
+using Application.Emails.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,9 @@ builder.Services.AddSingleton(FirebaseApp.Create(new AppOptions()
 
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.Configure<EmailSettings>
+   (options => builder.Configuration.GetSection("EmailSettings").Bind(options));
+builder.Services.AddSingleton<IEmailService, EmailNotifier>();
 
 var app = builder.Build();
 

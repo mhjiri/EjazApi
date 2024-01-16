@@ -14,7 +14,8 @@ namespace Domain
         public Guid Pm_ID { get; set; }
         public Guid Py_ID { get; set; } // Payment Method : Cash, Card, In-App
         public Guid Sb_ID { get; set; } // Subscriber : Monthly, Yearly
-        public string Pm_Creator { get; set; } // Gifted by
+        public string Pm_Creator { get; set; } // Gifted by Id
+        public string Pm_CreatorName { get; set; } // Gifted by Name
         public string PM_Recipient { get; set; } // Gifted to
         public string Pm_RefernceID { get; set; }
         public double Pm_DisplayPrice { get; set; }
@@ -26,6 +27,7 @@ namespace Domain
         public DateTime PM_GiftedOn { get; set; } = DateTime.UtcNow;
         public bool Pm_Active { get; set; } = true;
         public bool PM_Used { get; set; } = false;
+        public bool PM_MailSent { get; set; } = true;
 
         [ForeignKey("Py_ID")]
         public PaymentMethod PaymentMethod { get; set; }

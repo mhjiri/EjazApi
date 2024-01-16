@@ -43,7 +43,11 @@ namespace Application.Payments
 
                 var giftedPayment = await _ctx.GiftPayments.FirstOrDefaultAsync(g =>
                     g.PM_Recipient.Equals(subscriber.Email) && g.PM_CouponCode.Equals(req.CouponCode), cancellationToken: cancellationToken);
+
                 if (giftedPayment == null) return null;
+
+                if (!giftedPayment.PM_CouponCode.Equals(req.CouponCode, StringComparison.Ordinal))
+                    return Result<PaymentDto>.Failure("Coupon Code is case-sensitive.");
                 else
                 {
                     giftedPayment.PM_Used = true;
