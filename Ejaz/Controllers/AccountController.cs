@@ -79,6 +79,7 @@ namespace Ejaz.Controllers
                 //UserRecord firebaseUser = await FirebaseAuth.DefaultInstance.GetUserAsync(firebaseUID);
 
                 //if (oAuthDto.Email != firebaseUser.Email) return Unauthorized();
+                return Unauthorized("Incorrect Password. Please check the password and try again.");
             }
 
             if (!String.IsNullOrEmpty(oAuthDto.FirebaseUID)) user.Us_FirebaseUID = oAuthDto.FirebaseUID;
