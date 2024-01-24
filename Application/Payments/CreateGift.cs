@@ -51,7 +51,6 @@ namespace Application.Payments
                 var user = await _ctx.Users.FirstOrDefaultAsync(s =>
                     s.UserName == _userAccessor.GetUsername() && !s.Us_Deleted, cancellationToken: cancellationToken);
 
-                // Check
                 if (req.GiftPayment.Py_ID == null) req.GiftPayment.Py_ID = new Guid("1e614759-be5c-4620-98d5-1dd079a120a6"); // In-App Purchase
 
                 if (req.GiftPayment.Sb_ID == null)
@@ -73,7 +72,6 @@ namespace Application.Payments
 
                 if (result)
                 {
-                    // TO DO : Integrate Email
                     var isEmailSent = await _emailService.SendEmailAsync(req.GiftPayment.PM_Recipient,
                         $"{giftPayment.Pm_CreatorName} sent you Ejaz-Gift Voucher.",
                         $"<p>Dear User,</p><p> {giftPayment.Pm_CreatorName} has gifted you an 'Ejaz Subscription'.<p> <strong>Coupon Code : {giftPayment.PM_CouponCode}</strong></p>. <p>**Please login with <strong>{req.GiftPayment.PM_Recipient}</strong> email address to use Ejaz subscription.**.</p>.</p><p>Regards,</p><p>Team Ejaz</p>"
@@ -87,7 +85,6 @@ namespace Application.Payments
 
                     giftPayment = await _ctx.GiftPayments
                         .Include(i => i.PaymentMethod)
-                        //.Include(i => i.Subscriber)
                         .Include(i => i.Subscription)
                         .Include(i => i.Creator)
                         .Where(s => s.Pm_ID == giftPayment.Pm_ID).FirstOrDefaultAsync(cancellationToken: cancellationToken);
