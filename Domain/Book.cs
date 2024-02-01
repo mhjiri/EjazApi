@@ -36,17 +36,23 @@ namespace Domain
         public int Bk_ViewCount { get; set; }
         public DateTime? Bk_LastViewedOn { get; set; }
 
+        public string Bk_LastViewedBy { get; set; }
+
         //[ForeignKey("Md_AudioEn_ID")]
         //public Medium? Audio_En { get; set; }
         //[ForeignKey("Md_AudioAr_ID")]
         //public Medium? Audio_Ar { get; set; }
         [ForeignKey("Bk_Creator")]
         public AppUser Creator { get; set; }
+        
         [ForeignKey("Bk_Modifier")]
         public AppUser Modifier { get; set; }
 
+        [ForeignKey("Bk_LastViewedBy")]
+        public AppUser BookViewer { get; set; }
 
-        
+
+
         public virtual ICollection<BookCategory> Categories { get; set; }
         public virtual ICollection<BookGenre> Genres { get; set; }
         public virtual ICollection<BookPublisher> Publishers { get; set; }

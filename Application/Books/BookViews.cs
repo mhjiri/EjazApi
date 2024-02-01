@@ -35,8 +35,14 @@ namespace Application.Books
 
                 if (book == null) return null;
 
+                var user = await _ctx.Users.FirstOrDefaultAsync(s =>
+                    s.UserName == _userAccessor.GetUsername() && !s.Us_Deleted, cancellationToken: cancellationToken);
+
+                if (user == null) return null;
+
                 book.Bk_ViewCount++;
                 book.Bk_LastViewedOn = DateTime.Now;
+                book.Bk_LastViewedBy = user.Id;
 
                 var result = await _ctx.SaveChangesAsync(cancellationToken) > 0;
 
