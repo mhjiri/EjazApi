@@ -143,14 +143,14 @@ namespace Ejaz.Controllers
 
         [AllowAnonymous]
         [HttpPut("bookViews/{bookId}")]
-        public async Task<IActionResult> bookViews(Guid bookId)
+        public async Task<IActionResult> BookViews(Guid bookId)
         {
             return HandleResult(await mdtr.Send(new BookViews.Command { BookId = bookId }));
         }
 
 
         [AllowAnonymous]
-        [HttpGet("getTrendingBooks/{bookId}")]
+        [HttpGet("getTrendingBooks")]
         public async Task<IActionResult> GetTrendingBooks()
         {
             return HandleResult(await mdtr.Send(new TrendingBooks.Command { }));
