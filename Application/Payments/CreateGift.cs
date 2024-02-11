@@ -92,7 +92,7 @@ namespace Application.Payments
                 }
                 else
                 {
-                    return Result<GiftPaymentDto>.Failure("Failed to gift Payment");
+                    return Result<GiftPaymentDto>.Failure("Failed to gift Ejaz Subscription.");
                 }
             }
         }

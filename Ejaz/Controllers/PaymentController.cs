@@ -89,7 +89,7 @@ namespace Ejaz.Controllers
         {
             if (string.IsNullOrEmpty(couponCode))
             {
-                return BadRequest("Please enter a valid Coupon code");
+                return BadRequest("Please enter a valid Coupon code.");
             }
             else
             {

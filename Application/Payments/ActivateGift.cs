@@ -61,7 +61,7 @@ namespace Application.Payments
                 payment.Pm_RefernceID = giftedPayment?.Pm_RefernceID;
                 payment.Pm_Ordinal = giftedPayment.Pm_Ordinal;
                 payment.Pm_Creator = giftedPayment.Pm_Creator;
-                payment.Pm_Subscriber = subscriber.Id;
+                payment.Pm_Subscriber = subscriber?.Id;
                 payment.Pm_ID = giftedPayment.Pm_ID;
                 payment.Py_ID = giftedPayment.Py_ID;
                 payment.Sb_ID = giftedPayment.Sb_ID;
@@ -81,7 +81,7 @@ namespace Application.Payments
 
                 var result = await _ctx.SaveChangesAsync(cancellationToken) > 0;
 
-                if (!result) return Result<PaymentDto>.Failure("Failed to activate Payment");
+                if (!result) return Result<PaymentDto>.Failure("Failed to activate Payment.");
                 payment = await _ctx.Payments
                     .Include(i => i.PaymentMethod)
                     .Include(i => i.Subscriber)
