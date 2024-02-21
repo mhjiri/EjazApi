@@ -43,9 +43,10 @@ namespace Ejaz.Extensions
                        .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials()
-                       .WithOrigins("http://localhost:3011");
+                       //.WithOrigins("http://localhost:3011");
                        //.WithOrigins("https://ejazclient.azurewebsites.net");
                        //.WithOrigins("https://ejazclientapp.azurewebsites.net");
+                        .WithOrigins("https://ejaz-api.azurewebsites.net", "https://ejaz-adminpanel.azurewebsites.net", "http://localhost:3011");
                });
             });
             services.AddMediatR(typeof(List.Handler));
