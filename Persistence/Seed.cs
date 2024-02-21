@@ -19,7 +19,8 @@ namespace Persistence
                         UserName = "Faisal",
                         Email = "fjalali@hbku.edu.qa",
                         Us_SubscriptionDays = 0,
-                        Us_Active = true
+                        Us_Active = true,
+                        PhoneNumber = "1234567890" // Dummy
                     },
                     new AppUser
                     {
@@ -27,7 +28,8 @@ namespace Persistence
                         UserName = "shahraz",
                         Email = "shahraz.i@outlook.com",
                         Us_SubscriptionDays = 0,
-                        Us_Active = true
+                        Us_Active = true,
+                        PhoneNumber = "1234567890" // Dummy
                     },
                 };
 
