@@ -15,17 +15,19 @@ namespace Persistence
                 {
                     new AppUser
                     {
-                        Us_DisplayName = "Izztraab",
-                        UserName = "izztraab",
-                        Email = "izztraab@Outlook.com",
-                        Us_SubscriptionDays = 0
+                        Us_DisplayName = "Faisal",
+                        UserName = "Faisal",
+                        Email = "fjalali@hbku.edu.qa",
+                        Us_SubscriptionDays = 0,
+                        Us_Active = true
                     },
                     new AppUser
                     {
                         Us_DisplayName = "Shahraz Iqbal",
                         UserName = "shahraz",
                         Email = "shahraz.i@outlook.com",
-                        Us_SubscriptionDays = 0
+                        Us_SubscriptionDays = 0,
+                        Us_Active = true
                     },
                 };
 
