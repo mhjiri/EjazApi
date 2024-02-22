@@ -245,8 +245,8 @@ namespace Ejaz.Controllers
                 Us_FirebaseUID = registerOAuthDto.FirebaseUID,
                 Us_FirebaseToken = registerOAuthDto.FirebaseToken,
                 Us_Active = true,
-                Us_Customer = true
-                
+                Us_Customer = true,
+                Us_SubscriptionDays = 0   
             };
 
             FirebaseToken firebaseDecodedToken = await FirebaseAuth.DefaultInstance
@@ -308,7 +308,8 @@ namespace Ejaz.Controllers
                 Us_FirebaseUID = registerOAuthDto.FirebaseUID,
                 Us_FirebaseToken = registerOAuthDto.FirebaseToken,
                 Us_Active = true,
-                Us_Customer = true
+                Us_Customer = true,
+                Us_SubscriptionDays = 0
             };
 
             //FirebaseToken firebaseDecodedToken = await FirebaseAuth.DefaultInstance
@@ -365,7 +366,8 @@ namespace Ejaz.Controllers
                 Us_language = registerDto.Language,
                 Us_Active = true,
                 Us_Admin = true,
-                Us_SuperAdmin = registerDto.Role.ToUpper() == "SUPERADMIN"
+                Us_SuperAdmin = registerDto.Role.ToUpper() == "SUPERADMIN",
+                Us_SubscriptionDays = 0
 
             };
 
