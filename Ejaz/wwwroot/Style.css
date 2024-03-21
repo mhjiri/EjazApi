@@ -1,0 +1,25 @@
+﻿body {
+    background-color: #141D33;
+    margin: 25px; /* Adjust the value as needed */
+    position: relative
+}
+
+h1 {
+    color: #ffffff;
+}
+
+h2 {
+    color: #ffffff;
+}
+
+h3 {
+    color: #ffffff;
+}
+
+p {
+    color: #ffffff;
+}
+
+[lang="ar"] {
+    display: none;
+}
