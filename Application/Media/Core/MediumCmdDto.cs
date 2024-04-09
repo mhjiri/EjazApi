@@ -22,5 +22,6 @@ namespace Application.Media.Core
         public string Md_Creator { get; set; }
         public DateTime? Md_ModifyOn { get; set; }
         public string Md_Modifier { get; set; }
+        public string DownloadURL { get; set; }
     }
 }

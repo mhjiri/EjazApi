@@ -37,6 +37,42 @@ namespace Application.Media
 
                 return Result<Medium>.Success(medium);
             }
+
+            //public async Task<Result<Medium>> Handle(Query req, CancellationToken cancellationToken)
+            //{
+            //    try
+            //    {
+            //        // Query the SQL Server database to get the DownloadURL and Md_FileType corresponding to the Md_ID
+            //        var mediumData = await _ctx.Media
+            //                                .Where(s => s.Md_ID == req.Id)
+            //                                .Select(s => new { s.DownloadURL, s.Md_FileType })
+            //                                .FirstOrDefaultAsync(cancellationToken);
+
+            //        if (mediumData != null)
+            //        {
+            //            // Return the Medium object with the DownloadURL and Md_FileType
+            //            var medium = new Medium
+            //            {
+            //                Md_ID = req.Id,
+            //                DownloadURL = mediumData.DownloadURL,
+            //                Md_FileType = mediumData.Md_FileType
+            //                // Add other properties if needed
+            //            };
+
+            //            return Result<Medium>.Success(medium);
+            //        }
+            //        else
+            //        {
+            //            return Result<Medium>.Failure("Image not found."); // Handle the case where DownloadURL is null or Md_ID not found
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Log or handle exceptions
+            //        return Result<Medium>.Failure($"An error occurred: {ex.Message}");
+            //    }
+            //}
+
         }
     }
 }

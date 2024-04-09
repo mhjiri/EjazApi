@@ -192,6 +192,25 @@ namespace Ejaz.Controllers
             return CreateUserObject(user);
         }
 
+        //[AllowAnonymous]
+        //[HttpPost("login")]
+        //public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        //{
+        //    var user = await _userManager.Users
+        //        .FirstOrDefaultAsync(x => x.NormalizedEmail == loginDto.Email.ToUpper() && x.Us_Active == true && !x.Us_Deleted);
+
+        //    if (user == null) return Unauthorized();
+
+        //    var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+        //    if (result)
+        //    {
+        //        return CreateUserObject(user);
+        //    }
+
+        //    return Unauthorized();
+        //}
+
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)

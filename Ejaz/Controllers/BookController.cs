@@ -149,11 +149,32 @@ namespace Ejaz.Controllers
             return HandleResult(await mdtr.Send(new DeactivateBatch.Command { Ids = ids }));
         }
 
+        //Suggest Book start here
+        [HttpGet("getsuggestbooks")]
+        public async Task<IActionResult> GetSuggestedBook([FromQuery] BookParams param)
+        {
+            return HandlePagedResult(await mdtr.Send(new ListOfSuggestedBooks.Query { Params = param }));
+        }
+
         [AllowAnonymous]
         [HttpPost("suggestBook")]
         public async Task<IActionResult> SuggestBook(SuggestBookCmd book)
         {
             return HandleResult(await mdtr.Send(new Application.Books.SuggestBook.Command { Book = book }));
+        }
+
+        [AllowAnonymous]
+        [HttpPut("suggestBook/{bookId}")]
+        public async Task<IActionResult> UpdateSuggestedBook(Guid bookId, [FromBody] UpdateSuggestBookCmd updatedBook)
+        {
+            return HandleResult(await mdtr.Send(new Application.Books.UpdateSuggestedBook.Command { BookId = bookId,  Book = updatedBook }));
+        }
+
+        [AllowAnonymous]
+        [HttpDelete("removesuggestBook/{bookId}")]
+        public async Task<IActionResult> DeleteSuggestBook(Guid bookId)
+        {
+            return HandleResult(await mdtr.Send(new DeleteSuggestedBook.Command { BookId = bookId }));
         }
 
         [AllowAnonymous]

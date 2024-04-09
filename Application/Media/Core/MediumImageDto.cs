@@ -6,5 +6,6 @@ namespace Application.Media.Core
     public class MediumImageDto
     {
         public string Md_Medium { get; set; }
+        public string DownloadURL { get; set; }
     }
 }

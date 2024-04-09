@@ -11,5 +11,6 @@ namespace Application.Media.Core
         public string Md_Extension { get; set; }
         public string Md_Title { get; set; }
         public string Md_Title_Ar { get; set; }
+        public string DownloadURL { get; set; }
     }
 }

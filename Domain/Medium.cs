@@ -19,6 +19,7 @@ namespace Domain
         public string Md_Desc { get; set; }
         public string Md_Desc_Ar { get; set; }
         public int Md_Ordinal { get; set; }
+        public string DownloadURL { get; set; }
 
         public bool Md_Active { get; set; } = false;
         public DateTime Md_CreatedOn { get; set; } = DateTime.UtcNow;

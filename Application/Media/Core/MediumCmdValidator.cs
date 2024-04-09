@@ -12,7 +12,7 @@ namespace Application.Media.Core
             RuleFor(s => s.Md_Title).NotEmpty().Length(3,250);
             RuleFor(s => s.Md_Title_Ar).NotEmpty().Length(3, 250);
             //RuleFor(s => s.Md_Creator).NotEmpty();
-            RuleFor(x => x.Md_Medium).SetValidator(new FileAudioValidator());
+            //RuleFor(x => x.D).SetValidator(new FileAudioValidator());
         }
     }
 }

@@ -10,6 +10,11 @@ namespace Application.Books.Core
     {
         public Guid Bk_ID { get; set; }
         public string Bk_Code { get; set; }
+        public string Bk_Name { get; set; }
+        public string Bk_Name_Ar { get; set; }
+        public string Bk_Title_Ar { get; set; }
+        public Boolean Bk_Active { get; set; }
+        public string Bk_Trial { get; set; }
         public string Bk_Title { get; set; }
         public string Bk_Language { get; set; }
         public string Bk_Author { get; set; }

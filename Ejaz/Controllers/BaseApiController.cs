@@ -33,14 +33,28 @@ namespace Ejaz.Controllers
         {
             if (result == null) return NotFound();
 
-            if (result != null && result.Value.Md_Medium !=null && !String.IsNullOrEmpty(result.Value.Md_FileType))
+            if (result != null && result.Value.Md_Medium != null && !String.IsNullOrEmpty(result.Value.Md_FileType))
             {
                 return File(result.Value.Md_Medium, result.Value.Md_FileType);
             }
-                
+
 
             return BadRequest();
         }
+
+        //protected ActionResult HandleFileResult<T>(Result<Medium> result)
+        //{
+        //    if (result == null) return NotFound();
+
+        //    if (result.Value != null && !string.IsNullOrEmpty(result.Value.DownloadURL))
+        //    {
+        //        // Redirect to the Firebase Storage URL
+        //        return Redirect(result.Value.DownloadURL);
+        //    }
+
+
+        //    return BadRequest();
+        //}
 
 
 
