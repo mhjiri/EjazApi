@@ -18,6 +18,9 @@ namespace Application.Books.Core
         public Guid? Md_AudioEn_ID { get; set; }
         public Guid? Md_AudioAr_ID { get; set; }
 
+        public string Md_AudioEn_URL { get; set; }
+        public string Md_AudioAr_URL { get; set; }
+
         public string Bk_Code { get; set; }
         public string Bk_Name { get; set; }
         public string Bk_Name_Ar { get; set; }

@@ -7,7 +7,7 @@ namespace Application.Media.Core
     {
         public Guid Md_ID { get; set; }
 
-        public byte[] Md_Medium { get; set; }
+        //public byte[] Md_Medium { get; set; }
         public string Md_FileType { get; set; }
         public string Md_Extension { get; set; }
         public string Md_Title { get; set; }
@@ -21,6 +21,6 @@ namespace Application.Media.Core
         public string Md_Creator { get; set; }
         public DateTime? Md_ModifyOn { get; set; }
         public string Md_Modifier { get; set; }
-        public string DownloadURL { get; set; }
+        public string Md_URL { get; set; }
     }
 }

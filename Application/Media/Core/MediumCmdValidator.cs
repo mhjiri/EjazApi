@@ -9,10 +9,16 @@ namespace Application.Media.Core
     {
         public MediumCmdValidator()
         {
-            RuleFor(s => s.Md_Title).NotEmpty().Length(3,250);
+            RuleFor(s => s.Md_Title).NotEmpty().Length(3, 250);
             RuleFor(s => s.Md_Title_Ar).NotEmpty().Length(3, 250);
             //RuleFor(s => s.Md_Creator).NotEmpty();
-            //RuleFor(x => x.D).SetValidator(new FileAudioValidator());
+            RuleFor(s => s.Md_URL).NotEmpty().Must(BeValidUrl).WithMessage("Invalid download url format");
+        }
+
+        public bool BeValidUrl(string url)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(url, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
     }
 }

@@ -139,10 +139,36 @@ namespace Application.Books
 
                     }
                 }
-                
-                 
+
+
 
                 #endregion
+
+                var bookDtos = await qry.ToListAsync();
+
+                foreach(var bookDto in bookDtos)
+                {
+                    if(bookDto.Md_AudioEn_ID != null)
+                    {
+                        var audioEnUrl = await _ctx.Media
+                            .Where(m => m.Md_ID == bookDto.Md_AudioEn_ID)
+                            .Select(m => m.Md_URL)
+                            .FirstOrDefaultAsync(cancellationToken);
+
+                        bookDto.Md_AudioEn_URL = audioEnUrl;
+                    }
+
+                    if (bookDto.Md_AudioAr_ID != null)
+                    {
+                        var audioArUrl = await _ctx.Media
+                            .Where(m => m.Md_ID == bookDto.Md_AudioAr_ID)
+                            .Select(m => m.Md_URL)
+                            .FirstOrDefaultAsync(cancellationToken);
+
+                        bookDto.Md_AudioAr_URL = audioArUrl;
+                    }
+                }
+
                 //return Result<PagedList<BookDto>>.Success(_mpr.Map<PagedList<BookDto>>(await qry.ToListAsync()));
                 return Result<PagedList<BookDto>>
                     .Success(await PagedList<BookDto>.CreateAsync(qry,

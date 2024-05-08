@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Media.Core
 {
-    public class MediumCmdDto
+    public class MediumFileCmdDto
     {
         public Guid Md_ID { get; set; }
 
@@ -22,6 +22,6 @@ namespace Application.Media.Core
         public string Md_Creator { get; set; }
         public DateTime? Md_ModifyOn { get; set; }
         public string Md_Modifier { get; set; }
-        public string Md_URL { get; set; }
+        public IFormFile Md_URL { get; set; }
     }
 }

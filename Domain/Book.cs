@@ -7,9 +7,20 @@ namespace Domain
     {
         [Key]
         public Guid Bk_ID { get; set; }
-
         public Guid? Md_AudioEn_ID { get; set; }
         public Guid? Md_AudioAr_ID { get; set; }
+
+        [ForeignKey("Md_AudioEn_ID")]
+        public Medium Md_AudioEn { get; set; }
+
+        [ForeignKey("Md_AudioAr_ID")]
+        public Medium Md_AudioAr { get; set; }
+
+        [NotMapped]
+        public string Md_AudioEn_URL => Md_AudioEn?.Md_URL;
+
+        [NotMapped]
+        public string Md_AudioAr_URL => Md_AudioEn?.Md_URL;
 
         public string Bk_Code { get; set; }
         public string Bk_Name { get; set; }
@@ -44,7 +55,7 @@ namespace Domain
         //public Medium? Audio_Ar { get; set; }
         [ForeignKey("Bk_Creator")]
         public AppUser Creator { get; set; }
-        
+
         [ForeignKey("Bk_Modifier")]
         public AppUser Modifier { get; set; }
 
@@ -59,6 +70,7 @@ namespace Domain
         public virtual ICollection<BookThematicArea> ThematicAreas { get; set; }
         public virtual ICollection<BookAuthor> Authors { get; set; }
         public virtual ICollection<BookTag> Tags { get; set; }
+
         public virtual ICollection<Medium> Media { get; set; }
     }
 }

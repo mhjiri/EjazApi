@@ -14,16 +14,16 @@ namespace Application.Profiles.Core
         
         public Guid Md_ID { get; set; }
 
-        public string Username { get; set; }
+        public string? Username { get; set; }
         public string Password { get; set; }
         public string Us_DisplayName { get; set; }
         public DateTime Us_DOB { get; set; }
-        public string Us_Gender { get; set; }
+        public string? Us_Gender { get; set; }
         public string Us_language { get; set; }
         public string Us_Country { get; set; }
         public string Us_PhoneCode { get; set; }
         public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public bool Us_Customer { get; set; }
         public bool Us_Admin { get; set; }
         public bool Us_SuperAdmin { get; set; }

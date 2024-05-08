@@ -73,6 +73,8 @@ namespace Application.Profiles
                 profile.Us_ModifyOn = DateTime.UtcNow;
                 profile.Us_Customer = true;
                 profile.Us_Admin = false;
+                profile.Us_SubscriptionDays = 0;
+                profile.Us_Modifier = null;
                 profile.Us_SuperAdmin = false;
 
                 profile.Genres = new List<CustomerGenre>();

@@ -123,7 +123,7 @@ namespace Ejaz.Controllers
         [HttpPut("updateProfile")]
         public async Task<IActionResult> UpdateProfile(ProfileDto profile)
         {
-            
+      
             return HandleResult(await mdtr.Send(new Update.Command { Profile = profile }));
         }
 

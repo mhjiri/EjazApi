@@ -39,7 +39,7 @@ namespace Ejaz.Controllers
 
         [AllowAnonymous]
         [HttpPost("createMedium")]
-        public async Task<IActionResult> CreateMedium([FromForm] MediumCmdDto medium)
+        public async Task<IActionResult> CreateMedium([FromForm] MediumFileCmdDto medium)
         {
             return HandleResult(await mdtr.Send(new Create.Command { Medium = medium }));
 

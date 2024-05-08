@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Domain;
 using Application.Media.Core;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Ejaz.Controllers
 {
@@ -12,6 +13,7 @@ namespace Ejaz.Controllers
     public class BaseApiController : ControllerBase
     {
         private IMediator _mdtr;
+        private IMemoryCache _cache;
 
         protected IMediator mdtr => _mdtr ??=
             HttpContext.RequestServices.GetService<IMediator>();
@@ -29,32 +31,32 @@ namespace Ejaz.Controllers
             return BadRequest(result.Error);
         }
 
-        protected ActionResult HandleFileResult<T>(Result<Medium> result)
-        {
-            if (result == null) return NotFound();
-
-            if (result != null && result.Value.Md_Medium != null && !String.IsNullOrEmpty(result.Value.Md_FileType))
-            {
-                return File(result.Value.Md_Medium, result.Value.Md_FileType);
-            }
-
-
-            return BadRequest();
-        }
-
         //protected ActionResult HandleFileResult<T>(Result<Medium> result)
         //{
         //    if (result == null) return NotFound();
 
-        //    if (result.Value != null && !string.IsNullOrEmpty(result.Value.DownloadURL))
+        //    if (result != null && result.Value.Md_Medium != null && !String.IsNullOrEmpty(result.Value.Md_FileType))
         //    {
-        //        // Redirect to the Firebase Storage URL
-        //        return Redirect(result.Value.DownloadURL);
+        //        return File(result.Value.Md_Medium, result.Value.Md_FileType);
         //    }
 
 
         //    return BadRequest();
         //}
+
+        protected ActionResult HandleFileResult<T>(Result<Medium> result)
+        {
+            if (result == null) return NotFound();
+
+            if (result.Value != null && !string.IsNullOrEmpty(result.Value.Md_URL))
+            {
+                // Redirect to the Firebase Storage URL
+                return Redirect(result.Value.Md_URL);
+            }
+
+
+            return BadRequest();
+        }
 
 
 

@@ -63,11 +63,11 @@ namespace Application.Books
                     bookToUpdate.Bk_Language = req.Book.Bk_Language;
                 if (req.Book.Bk_Author != null)
                     bookToUpdate.Bk_Author = req.Book.Bk_Author;
-                if (req.Book.Bk_Editor != null)
-                    bookToUpdate.Bk_Editor = req.Book.Bk_Editor;
-                if (req.Book.Bk_Comments != null)
-                    bookToUpdate.Bk_Comments = req.Book.Bk_Comments;
-                bookToUpdate.Bk_Creator = user.Us_Creator;
+                //if (req.Book.Bk_Editor != null)
+                //    bookToUpdate.Bk_Editor = req.Book.Bk_Editor;
+                //if (req.Book.Bk_Comments != null)
+                //    bookToUpdate.Bk_Comments = req.Book.Bk_Comments;
+                //bookToUpdate.Bk_Creator = user.Us_Creator;
 
                 // Save changes to the database
                 var result = await _ctx.SaveChangesAsync(cancellationToken) > 0;

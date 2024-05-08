@@ -24,13 +24,12 @@ namespace Ejaz.Extensions
 
                 string connStr;
                 if (env == "Development")
-                {
-                    
+                {       
                     connStr = config.GetConnectionString("DefaultConnection");
                 } else
                 {
                     connStr = config.GetConnectionString("DefaultConnection");
-            }
+                }
                 
             
             options.UseSqlServer(connStr, options => { options.CommandTimeout(3000); });
@@ -43,10 +42,11 @@ namespace Ejaz.Extensions
                        .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials()
-                       .WithOrigins("http://localhost:3011")
-                       //.WithOrigins("https://ejazclient.azurewebsites.net");
-                       //.WithOrigins("https://ejazclientapp.azurewebsites.net");
-                        .WithOrigins("https://ejaz-api.azurewebsites.net", "https://ejaz-adminpanel.azurewebsites.net", "http://localhost:3011");
+                        .WithOrigins("http://localhost:3011")
+                        .WithOrigins("http://localhost:3000")
+                        //.WithOrigins("https://ejazclient.azurewebsites.net");
+                        //.WithOrigins("https://ejazclientapp.azurewebsites.net");
+                        .WithOrigins("http://localhost:3011","https://ejaz-api.azurewebsites.net", "https://ejaz-adminpanel.azurewebsites.net");
                });
             });
             services.AddMediatR(typeof(List.Handler));

@@ -272,6 +272,16 @@ namespace Persistence
 
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
+
+            builder.Entity<Book>()
+                .HasOne(b => b.Md_AudioEn)
+                .WithMany()
+                .HasForeignKey(b => b.Md_AudioEn_ID);
+
+            builder.Entity<Book>()
+                .HasOne(b => b.Md_AudioAr)
+                .WithMany()
+                .HasForeignKey(b => b.Md_AudioAr_ID);
         }
     }
 }

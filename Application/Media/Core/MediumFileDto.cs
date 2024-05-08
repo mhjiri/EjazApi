@@ -1,14 +1,13 @@
 ﻿using Domain;
-using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Media.Core
 {
-    public class MediumCmdDto
+    public class MediumFileDto
     {
         public Guid Md_ID { get; set; }
 
-        //public IFormFile Md_Medium { get; set; }
+        //public byte[] Md_Medium { get; set; }
         public string Md_FileType { get; set; }
         public string Md_Extension { get; set; }
         public string Md_Title { get; set; }
@@ -22,6 +21,7 @@ namespace Application.Media.Core
         public string Md_Creator { get; set; }
         public DateTime? Md_ModifyOn { get; set; }
         public string Md_Modifier { get; set; }
-        public string Md_URL { get; set; }
+        public byte[] Md_URL { get; set; }
+
     }
 }

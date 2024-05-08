@@ -20,21 +20,10 @@ namespace Ejaz.Controllers
     {
         private readonly DataContext _context;
 
-        //[HttpGet("filters")]
-        //public async Task<IActionResult> GetFilters()
-        //{
-        //    //var categories = await _context.BookCategories.Select(c => c.Book).Distinct().ToListAsync();
-        //    //var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
-
-        //    //return Ok(new { brands, types });
-
-        //    return HandlePagedResult(await mdtr.Send)
-        //}
 
         [AllowAnonymous]
         [HttpGet("getBooks")]
         public async Task<IActionResult> GetBooks([FromQuery] BookParams param)
-
         {
             return HandlePagedResult(await mdtr.Send(new List.Query { Params = param }));
         }
@@ -151,9 +140,16 @@ namespace Ejaz.Controllers
 
         //Suggest Book start here
         [HttpGet("getsuggestbooks")]
-        public async Task<IActionResult> GetSuggestedBook([FromQuery] BookParams param)
+        public async Task<IActionResult> GetSuggestedBooks([FromQuery] BookParams param)
         {
             return HandlePagedResult(await mdtr.Send(new ListOfSuggestedBooks.Query { Params = param }));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("getsuggestbooks/{id}")]
+        public async Task<IActionResult> GetSuggestedBook(Guid id)
+        {
+            return HandleResult(await mdtr.Send(new GetSuggestedBook.Query { Id = id }));
         }
 
         [AllowAnonymous]

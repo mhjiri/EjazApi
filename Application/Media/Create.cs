@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Firebase.Storage;
 
 namespace Application.Media
 {
@@ -19,7 +20,7 @@ namespace Application.Media
     {
         public class Command : IRequest<Result<MediumDto>>
         {
-            public MediumCmdDto Medium { get; set; }
+            public MediumFileCmdDto Medium { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<MediumDto>>
@@ -27,55 +28,76 @@ namespace Application.Media
             private readonly DataContext _ctx;
             private readonly IMapper _mpr;
             private readonly IUserAccessor _userAccessor;
+            private readonly FirebaseStorage _firebaseStorage;
 
-            public Handler(DataContext ctx, IMapper mpr, IUserAccessor userAccessor)
+            public Handler(DataContext ctx, IMapper mpr, IUserAccessor userAccessor, FirebaseStorage firebaseStorage)
             {
                 _userAccessor = userAccessor;
                 _ctx = ctx;
                 _mpr = mpr;
+                _firebaseStorage = firebaseStorage;
             }
 
             public class CommandValidator : AbstractValidator<Command>
             {
                 public CommandValidator()
                 {
-                    RuleFor(x => x.Medium).SetValidator(new MediumCmdValidator());
+                    RuleFor(x => x.Medium).SetValidator(new MediumFileCmdValidator());
                 }
             }
 
             public async Task<Result<MediumDto>> Handle(Command req, CancellationToken cancellationToken)
             {
-                var user = await _ctx.Users.FirstOrDefaultAsync(s =>
-                    s.UserName == _userAccessor.GetUsername() && !s.Us_Deleted, cancellationToken: cancellationToken);
-
-                var file = req.Medium.Md_Medium;
-                req.Medium.Md_Medium = null;
-                var medium = new Medium(); //= _mpr.Map<Medium>(req.Medium);
-                if (file.Length > 0)
+                try
                 {
-                    await using var stream = file.OpenReadStream();
-                    using (MemoryStream memStream = new MemoryStream())
+                    var user = await _ctx.Users.FirstOrDefaultAsync(s =>
+                        s.UserName == _userAccessor.GetUsername() && !s.Us_Deleted, cancellationToken: cancellationToken);
+
+                    // Assuming req.Medium.Md_URL contains the file from the client
+                    var file = req.Medium.Md_URL;
+
+                    // Initialize Firebase Storage
+                    var firebaseStorageBucket = "ejaz-290e6.appspot.com";
+                    var fireBaseStorage = new FirebaseStorage(firebaseStorageBucket);
+
+                    // Generate a unique storage path for the file
+                    var storagePath = $"files/{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+
+                    // Upload the file to Firebase Storage
+                    using (var fileStream = file.OpenReadStream())
                     {
-                        stream.CopyTo(memStream);
-                        medium.Md_Medium = memStream.ToArray();
+                        var downloadUrl = await fireBaseStorage.Child(storagePath).PutAsync(fileStream);
+
+                        // Create a new Medium object
+                        var medium = new Medium
+                        {
+                            Md_URL = downloadUrl,
+                            Md_Title = req.Medium.Md_Title,
+                            Md_Title_Ar = req.Medium.Md_Title_Ar,
+                            Md_Extension = Path.GetExtension(file.FileName),
+                            Md_FileName = file.FileName,
+                            Md_FileType = "application/octet-stream",
+                            Md_Creator = user.Id,
+                            Md_Active = true
+                        };
+
+                        // Add the Medium object to the database context
+                        _ctx.Media.Add(medium);
+
+                        // Save changes to the database
+                        var result = await _ctx.SaveChangesAsync(cancellationToken) > 0;
+
+                        if (!result)
+                            return Result<MediumDto>.Failure("Failed to update Medium");
+                        else
+                            return Result<MediumDto>.Success(_mpr.Map<MediumDto>(medium));
                     }
-                    medium.Md_Title = req.Medium.Md_Title;
-                    medium.Md_Title_Ar = req.Medium.Md_Title_Ar;
-                    medium.Md_Extension = Path.GetExtension(file.FileName);
-                    medium.Md_FileName = file.FileName;
-                    medium.Md_FileType = file.ContentType;
-                    medium.Md_Creator = user.Id;
-                    medium.Md_Active = true;
-                    _ctx.Media.Add(medium);
+                }
+                catch (Exception ex)
+                {
+                    return Result<MediumDto>.Failure($"Error: {ex.Message}");
+                }
 
-                    var result = await _ctx.SaveChangesAsync(cancellationToken) > 0;
-
-                    if (!result) return Result<MediumDto>.Failure("Failed to update Medium");
-                    return Result<MediumDto>.Success(_mpr.Map<MediumDto>(medium));
-
-                } else return Result<MediumDto>.Failure("Failed to update Medium");
-
-                
             }
         }
     }

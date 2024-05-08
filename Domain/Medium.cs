@@ -10,7 +10,7 @@ namespace Domain
 
         public Guid? Bk_ID { get; set; }
 
-        public byte[] Md_Medium { get; set; }
+        //public byte[] Md_Medium { get; set; }
         public string Md_FileName { get; set; }
         public string Md_FileType { get; set; }
         public string Md_Extension { get; set; }
@@ -19,7 +19,7 @@ namespace Domain
         public string Md_Desc { get; set; }
         public string Md_Desc_Ar { get; set; }
         public int Md_Ordinal { get; set; }
-        public string DownloadURL { get; set; }
+        public string Md_URL { get; set; }
 
         public bool Md_Active { get; set; } = false;
         public DateTime Md_CreatedOn { get; set; } = DateTime.UtcNow;

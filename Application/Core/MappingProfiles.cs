@@ -254,6 +254,10 @@ namespace Application.Core
                 .ForMember(s => s.Bk_Creator, z => z.MapFrom(s => s.Creator.Us_DisplayName))
                 .ForMember(s => s.Bk_Modifier, z => z.MapFrom(s => s.Modifier.Us_DisplayName));
             CreateMap<Book, BookDto>()
+                .ForMember(dest => dest.Md_AudioEn_URL, opt => 
+                    opt.MapFrom(src => src.Md_AudioEn != null ? src.Md_AudioEn.Md_URL: null))
+                .ForMember(dest => dest.Md_AudioAr_URL, opt =>
+                    opt.MapFrom(src => src.Md_AudioAr != null ? src.Md_AudioAr.Md_URL : null))
                 .ForMember(s => s.Genres, z => z.MapFrom(s => s.Genres.Where(s=>s.BkGn_Active).Select(s => s.Genre)))
                 .ForMember(s => s.ThematicAreas, z => z.MapFrom(s => s.ThematicAreas.Where(s => s.BkTh_Active).Select(s => s.ThematicArea)))
                 .ForMember(s => s.Categories, z => z.MapFrom(s => s.Categories.Where(s=>s.BkCt_Active).Select(s => s.Category)))

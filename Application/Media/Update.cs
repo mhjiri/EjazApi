@@ -7,6 +7,7 @@ using Application.ThematicAreas.Core;
 using AutoMapper;
 using Azure.Core;
 using Domain;
+using Firebase.Storage;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -27,12 +28,14 @@ namespace Application.Media
             private readonly DataContext _ctx;
             private readonly IMapper _mpr;
             private readonly IUserAccessor _userAccessor;
+            private readonly FirebaseStorage _firebaseStorage;
 
-            public Handler(DataContext ctx, IMapper mpr, IUserAccessor userAccessor)
+            public Handler(DataContext ctx, IMapper mpr, IUserAccessor userAccessor, FirebaseStorage firebaseStorage)
             {
                 _userAccessor = userAccessor;
                 _ctx = ctx;
                 _mpr = mpr;
+                _firebaseStorage = firebaseStorage;
             }
 
             public class CommandValidator : AbstractValidator<Command>
@@ -52,20 +55,14 @@ namespace Application.Media
                 var user = await _ctx.Users.FirstOrDefaultAsync(s =>
                     s.UserName == _userAccessor.GetUsername() && !s.Us_Deleted, cancellationToken: cancellationToken);
 
-                var file = req.Medium.Md_Medium;
+                var url = req.Medium.Md_URL;
 
-                if (file.Length > 0)
+                if (!string.IsNullOrEmpty(url))
                 {
-                    await using var stream = file.OpenReadStream();
-                    using (MemoryStream memStream = new MemoryStream())
-                    {
-                        await memStream.CopyToAsync(stream, cancellationToken);
-                        medium.Md_Medium = memStream.ToArray();
-                    }
-
-                    medium.Md_Extension = Path.GetExtension(file.FileName);
-                    medium.Md_FileName = file.FileName;
-                    medium.Md_FileType = file.ContentType;
+                    medium.Md_URL = url;
+                    medium.Md_Extension = Path.GetExtension(url);
+                    medium.Md_FileName = Path.GetFileName(url);
+                    medium.Md_FileType = "application/octet-stream";
                     medium.Md_Modifier = user.Id;
                     medium.Md_ModifyOn = DateTime.UtcNow;
 

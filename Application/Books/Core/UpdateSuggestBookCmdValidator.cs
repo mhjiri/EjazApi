@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.Books.Core
 {
-    public class SuggestBookCmdValidator : AbstractValidator<SuggestBookCmd>
+    public class UpdateSuggestBookCmdValidator : AbstractValidator<UpdateSuggestBookCmd>
     {
-        public SuggestBookCmdValidator()
+        public UpdateSuggestBookCmdValidator()
         {
             RuleFor(s => s.Bk_Code).NotEmpty();
             RuleFor(s => s.Bk_Title).NotEmpty().Length(3, 250);
