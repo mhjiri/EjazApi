@@ -10,31 +10,128 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
 using System.Diagnostics;
+using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using Persistence;
 
 namespace Ejaz.Controllers
 {
 
-
+    [ResponseCache(CacheProfileName = "Default604800")]
     public class BookController : BaseApiController
     {
-        private readonly DataContext _context;
 
+        private readonly ILogger<BookController> _logger;
+        private readonly IDistributedCache _cache;
+
+        public BookController(IDistributedCache cache, ILogger<BookController> logger)
+        {
+            _cache = cache;
+            _logger = logger;
+        }
 
         [AllowAnonymous]
         [HttpGet("getBooks")]
+        [Produces("application/json")]
+        [OutputCache(Duration = 604800)]
         public async Task<IActionResult> GetBooks([FromQuery] BookParams param)
         {
-            return HandlePagedResult(await mdtr.Send(new List.Query { Params = param }));
+            HttpContext.Response.GetTypedHeaders().CacheControl =
+             new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+             {
+                 Public = true, // Cache response in public caches (like browsers)
+                 MaxAge = TimeSpan.FromSeconds(10) // Cache duration (10 seconds in this example)
+             };
+            HttpContext.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+                new string[] { "Accept-Encoding" };
+            _logger.LogInformation("Alhamdulillah. Starting getBooks endpoint....");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                var cacheKey = $"Books_{param.Status}_{param.PageSize}_{param.OrderBy}_{param.OrderAs}";
+                var cachedData = await _cache.GetStringAsync(cacheKey);
+                if (cachedData != null)
+                {
+                    var books = JsonConvert.DeserializeObject<List<BookDto>>(cachedData);
+                    return Ok(books);
+                }
+
+                var result = await mdtr.Send(new List.Query { Params = param });
+
+                if (result.IsSuccess && result.Value != null)
+                {
+                    var pagedList = (PagedList<BookDto>)result.Value;
+
+                    var items = pagedList.ToList();
+
+                    var serializedBooks = JsonConvert.SerializeObject(items);
+
+                    await _cache.SetStringAsync(cacheKey, serializedBooks, new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+                    });
+
+                    return Ok(items);
+                }
+                else
+                {
+                    return BadRequest("Failed to retrieve books.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+            finally
+            {
+                stopwatch.Stop();
+                _logger.LogInformation("getBooks endpoints completed in ${Elapsedmilliseconds} ms", stopwatch.ElapsedMilliseconds);
+            }
         }
 
         [AllowAnonymous]
         [HttpGet("getBookList")]
+        [OutputCache(Duration = 604800)]
         public async Task<IActionResult> GetBookList([FromQuery] BookParams param)
         {
-            return HandlePagedResult(await mdtr.Send(new ListBooks.Query { Params = param }));
-        }
+            try
+            {
+                var cacheKey = $"BookList_{param.Status}_{param.PageSize}_{param.OrderBy}_{param.OrderAs}";
+                var cachedData = await _cache.GetStringAsync(cacheKey);
 
+                if (!string.IsNullOrEmpty(cachedData))
+                {
+                    var books = JsonConvert.DeserializeObject<List<BookListDto>>(cachedData);
+                    return Ok(books);
+                }
+
+                var result = await mdtr.Send(new ListBooks.Query { Params = param });
+
+                if (result.IsSuccess && result.Value != null)
+                {
+                    var books = result.Value;
+
+                    var serializedBooks = JsonConvert.SerializeObject(books);
+
+                    await _cache.SetStringAsync(cacheKey, serializedBooks, new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+                    });
+
+                    return Ok(books);
+                }
+                else
+                {
+                    return BadRequest("Failed to retrieve the book list");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
         [AllowAnonymous]
         [HttpGet("getBook/{id}")]
         public async Task<IActionResult> GetBook(Guid id)

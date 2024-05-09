@@ -85,7 +85,7 @@ try
         options.Configuration = builder.Configuration.GetConnectionString("MyRedisConStr");
         options.InstanceName = "SampleInstance";
     });
-    builder.Services.AddResponseCaching();
+    // builder.Services.AddResponseCaching();
 
 
     var app = builder.Build();
@@ -124,22 +124,9 @@ try
     }
 
     app.UseCors("CorsPolicy");
-    app.UseResponseCaching();
-
-    app.Use(async (context, next) =>
-    {
-        context.Response.GetTypedHeaders().CacheControl =
-            new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-            {
-                Public = true,
-                MaxAge = TimeSpan.FromDays(7)
-            };
-        context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-            new string[] { "Accept-Encoding" };
-
-        await next();
-    });
+    
     app.UseOutputCache();
+    // app.UseResponseCaching();
 
     app.UseAuthentication();
     app.UseAuthorization();
