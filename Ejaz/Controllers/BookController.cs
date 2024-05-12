@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Books;
+﻿using Application.Books;
 using Application.Books.Core;
 using Application.Core;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using MediatR;
 using System.Diagnostics;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using Persistence;
 
 namespace Ejaz.Controllers
 {
