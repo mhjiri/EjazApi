@@ -17,10 +17,10 @@ namespace Domain
         public Medium Md_AudioAr { get; set; }
 
         [NotMapped]
-        public string Md_AudioEn_URL => Md_AudioEn?.Md_URL;
+        public string Md_AudioEn_URL { get; set; }
 
         [NotMapped]
-        public string Md_AudioAr_URL => Md_AudioEn?.Md_URL;
+        public string Md_AudioAr_URL { get; set; }
 
         public string Bk_Code { get; set; }
         public string Bk_Name { get; set; }

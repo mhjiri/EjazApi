@@ -18,7 +18,7 @@ namespace Ejaz.Extensions
             
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddDbContext<DataContext>(options =>
+            services.AddDbContextPool<DataContext>(options =>
             {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
