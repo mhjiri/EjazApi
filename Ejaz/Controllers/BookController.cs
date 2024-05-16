@@ -37,7 +37,7 @@ namespace Ejaz.Controllers
                  MaxAge = TimeSpan.FromSeconds(10) // Cache duration (10 seconds in this example)
              };
             HttpContext.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-                new string[] { "Accept-Encoding" };
+                new[] { "Accept-Encoding" };
             _logger.LogInformation("Alhamdulillah. Starting getBooks endpoint....");
             Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -55,7 +55,7 @@ namespace Ejaz.Controllers
 
                 if (result.IsSuccess && result.Value != null)
                 {
-                    var pagedList = (PagedList<BookDto>)result.Value;
+                    var pagedList = result.Value;
 
                     var items = pagedList.ToList();
 
@@ -89,41 +89,42 @@ namespace Ejaz.Controllers
         [OutputCache(Duration = 604800)]
         public async Task<IActionResult> GetBookList([FromQuery] BookParams param)
         {
-            try
-            {
-                var cacheKey = $"BookList_{param.Status}_{param.PageSize}_{param.OrderBy}_{param.OrderAs}";
-                var cachedData = await _cache.GetStringAsync(cacheKey);
+            return HandlePagedResult(await mdtr.Send(new ListBooks.Query { Params = param }));
+            //try
+            //{
+            //    var cacheKey = $"BookList_{param.Status}_{param.Search}_{param.PageSize}_{param.OrderBy}_{param.OrderAs}_{param.PageNumber}_{param.Language}";
+            //    var cachedData = await _cache.GetStringAsync(cacheKey);
 
-                if (!string.IsNullOrEmpty(cachedData))
-                {
-                    var books = JsonConvert.DeserializeObject<List<BookListDto>>(cachedData);
-                    return Ok(books);
-                }
+            //    if (!string.IsNullOrEmpty(cachedData))
+            //    {
+            //        var books = JsonConvert.DeserializeObject<List<BookListDto>>(cachedData);
+            //        return Ok(books);
+            //    }
 
-                var result = await mdtr.Send(new ListBooks.Query { Params = param });
+            //    var result = await mdtr.Send(new ListBooks.Query { Params = param });
 
-                if (result.IsSuccess && result.Value != null)
-                {
-                    var books = result.Value;
+            //    if (result.IsSuccess && result.Value != null)
+            //    {
+            //        var books = result.Value;
 
-                    var serializedBooks = JsonConvert.SerializeObject(books);
+            //        var serializedBooks = JsonConvert.SerializeObject(books);
 
-                    await _cache.SetStringAsync(cacheKey, serializedBooks, new DistributedCacheEntryOptions
-                    {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
-                    });
+            //        await _cache.SetStringAsync(cacheKey, serializedBooks, new DistributedCacheEntryOptions
+            //        {
+            //            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+            //        });
 
-                    return Ok(books);
-                }
-                else
-                {
-                    return BadRequest("Failed to retrieve the book list");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            //        return Ok(books);
+            //    }
+            //    else
+            //    {
+            //        return BadRequest("Failed to retrieve the book list");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, $"Internal server error: {ex.Message}");
+            //}
         }
         [AllowAnonymous]
         [HttpGet("getBook/{id}")]
@@ -246,14 +247,14 @@ namespace Ejaz.Controllers
         [HttpPost("suggestBook")]
         public async Task<IActionResult> SuggestBook(SuggestBookCmd book)
         {
-            return HandleResult(await mdtr.Send(new Application.Books.SuggestBook.Command { Book = book }));
+            return HandleResult(await mdtr.Send(new SuggestBook.Command { Book = book }));
         }
 
         [AllowAnonymous]
         [HttpPut("suggestBook/{bookId}")]
         public async Task<IActionResult> UpdateSuggestedBook(Guid bookId, [FromBody] UpdateSuggestBookCmd updatedBook)
         {
-            return HandleResult(await mdtr.Send(new Application.Books.UpdateSuggestedBook.Command { BookId = bookId,  Book = updatedBook }));
+            return HandleResult(await mdtr.Send(new UpdateSuggestedBook.Command { BookId = bookId,  Book = updatedBook }));
         }
 
         [AllowAnonymous]
@@ -275,7 +276,7 @@ namespace Ejaz.Controllers
         [HttpGet("getTrendingBooks")]
         public async Task<IActionResult> GetTrendingBooks()
         {
-            return HandleResult(await mdtr.Send(new TrendingBooks.Command { }));
+            return HandleResult(await mdtr.Send(new TrendingBooks.Command()));
         }
     }
 }

@@ -101,8 +101,6 @@ namespace Application.Books
         //});
 
 
-
-
             public async Task<Result<PagedList<BookDto>>> Handle(Query req, CancellationToken cancellationToken)
             {
                 var user = await _ctx.Users.FirstOrDefaultAsync(s =>
@@ -251,8 +249,6 @@ namespace Application.Books
 
                 }).AsQueryable();
 
-
-                //return Result<PagedList<BookDto>>.Success(_mpr.Map<PagedList<BookDto>>(await qry.ToListAsync()));
                 return Result<PagedList<BookDto>>
                     .Success(await PagedList<BookDto>.CreateAsync(bookDtos,
                         req.Params.PageNumber, req.Params.PageSize, property, Subscribed));
