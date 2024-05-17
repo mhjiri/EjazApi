@@ -196,64 +196,66 @@ namespace Application.Books
 
                 foreach (var book in books)
                 {
-                    if (book.Md_AudioEn_ID != null)
-                    {
-                        var audioEnUrl = await _ctx.Media
-                            .Where(m => m.Md_ID == book.Md_AudioEn_ID)
-                            .Select(m => m.Md_URL)
-                            .FirstOrDefaultAsync(cancellationToken);
+                    book.Md_AudioEn_URL = await GetAudioUrlAsync(book.Md_AudioEn_ID);
+                    book.Md_AudioAr_URL = await GetAudioUrlAsync(book.Md_AudioAr_ID);
 
-                        book.Md_AudioEn_URL = audioEnUrl;
-                    }
-
-                    if (book.Md_AudioAr_ID != null)
-                    {
-                        var audioArUrl = await _ctx.Media
-                            .Where(m => m.Md_ID == book.Md_AudioAr_ID)
-                            .Select(m => m.Md_URL)
-                            .FirstOrDefaultAsync(cancellationToken);
-
-                        book.Md_AudioAr_URL = audioArUrl;
-                    }
                 }
 
-                var bookDtos = books.Select(book => new BookDto
-                {
-                    Bk_Name = book.Bk_Name,
-                    Bk_Name_Ar = book.Bk_Name_Ar,
-                    Bk_Title = book.Bk_Title,
-                    Bk_Title_Ar = book.Bk_Title_Ar,
-                    Bk_Desc = book.Bk_Desc,
-                    Bk_Desc_Ar = book.Bk_Desc_Ar,
-                    Bk_Language = book.Bk_Language,
-                    Bk_Active = book.Bk_Active,
-                    Md_AudioEn_ID = book.Md_AudioEn_ID,
-                    Md_AudioAr_ID = book.Md_AudioAr_ID,
-                    Md_AudioEn_URL = book.Md_AudioEn_URL,
-                    Md_AudioAr_URL = book.Md_AudioAr_URL,
-                    Bk_ID = book.Bk_ID,
-                    Md_ID = null,
-                    Bk_Introduction= book.Bk_Introduction,
-                    Bk_Introduction_Ar = book.Bk_Introduction_Ar,
-                    Bk_Summary=book.Bk_Summary,
-                    Bk_Summary_Ar= book.Bk_Summary_Ar,
-                    Bk_Language_Ar= "الكل",
-                    Bk_Trial= book.Bk_Trial,
-                    Bk_Characters= book.Bk_Characters,
-                    Bk_Characters_Ar=book.Bk_Characters_Ar,
-                    Bk_CreatedOn= book.Bk_CreatedOn,
-                    Bk_Creator= book.Bk_Creator,
-                    Bk_Code=book.Bk_Code,
-                    Bk_Modifier=book.Bk_Modifier,
-                    Bk_ModifyOn=book.Bk_ModifyOn,
+                var bookDtos = books.Select(book => _mpr.Map<BookDto>(book)).AsQueryable();
 
-                }).AsQueryable();
+
+                //var bookDtos = books.Select(book => new BookDto
+                //{
+                //    Bk_Name = book.Bk_Name,
+                //    Bk_Name_Ar = book.Bk_Name_Ar,
+                //    Bk_Title = book.Bk_Title,
+                //    Bk_Title_Ar = book.Bk_Title_Ar,
+                //    Bk_Desc = book.Bk_Desc,
+                //    Bk_Desc_Ar = book.Bk_Desc_Ar,
+                //    Bk_Language = book.Bk_Language,
+                //    Bk_Active = book.Bk_Active,
+                //    Md_AudioEn_ID = book.Md_AudioEn_ID,
+                //    Md_AudioAr_ID = book.Md_AudioAr_ID,
+                //    Md_AudioEn_URL = book.Md_AudioEn_URL,
+                //    Md_AudioAr_URL = book.Md_AudioAr_URL,
+                //    Bk_ID = book.Bk_ID,
+                //    Md_ID = null,
+                //    Bk_Introduction= book.Bk_Introduction,
+                //    Bk_Introduction_Ar = book.Bk_Introduction_Ar,
+                //    Bk_Summary=book.Bk_Summary,
+                //    Bk_Summary_Ar= book.Bk_Summary_Ar,
+                //    Bk_Language_Ar= "الكل",
+                //    Bk_Trial= book.Bk_Trial,
+                //    Bk_Characters= book.Bk_Characters,
+                //    Bk_Characters_Ar=book.Bk_Characters_Ar,
+                //    Bk_CreatedOn= book.Bk_CreatedOn,
+                //    Bk_Creator= book.Bk_Creator,
+                //    Bk_Code=book.Bk_Code,
+                //    Bk_Modifier=book.Bk_Modifier,
+                //    Bk_ModifyOn=book.Bk_ModifyOn,
+
+                //}).AsQueryable();
 
                 return Result<PagedList<BookDto>>
                     .Success(await PagedList<BookDto>.CreateAsync(bookDtos,
                         req.Params.PageNumber, req.Params.PageSize, property, Subscribed));
 
+
+
+            }
+            private async Task<string> GetAudioUrlAsync(Guid? mediaId)
+            {
+                if (mediaId.HasValue)
+                {
+                    return await _ctx.Media
+                        .Where(m => m.Md_ID == mediaId)
+                        .Select(m => m.Md_URL)
+                        .FirstOrDefaultAsync();
+                }
+                return null;
             }
         }
+
+
     }
 }

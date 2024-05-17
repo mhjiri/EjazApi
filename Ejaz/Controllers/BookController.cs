@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
+
 namespace Ejaz.Controllers
 {
 
@@ -27,7 +28,7 @@ namespace Ejaz.Controllers
         [AllowAnonymous]
         [HttpGet("getBooks")]
         [Produces("application/json")]
-        [OutputCache(Duration = 604800)]
+        [OutputCache(Duration = 10, VaryByParam = "*", VaryByHeader = "Accept", Location = OutputCacheLocation.Server)]
         public async Task<IActionResult> GetBooks([FromQuery] BookParams param)
         {
             HttpContext.Response.GetTypedHeaders().CacheControl =
@@ -44,6 +45,15 @@ namespace Ejaz.Controllers
             try
             {
                 var cacheKey = $"Books_{param.Status}_{param.PageSize}_{param.OrderBy}_{param.OrderAs}";
+                var refreshKey = $"Refresh_Books_{param.Status}_{param.PageSize}_{param.OrderBy}_{param.OrderAs}";
+                // Check if the refresh key is present
+                var refreshValue = await _cache.GetStringAsync(refreshKey);
+                if (refreshValue != null)
+                {
+                    // If the refresh key is present, remove it and refresh the cache
+                    await _cache.RemoveAsync(refreshKey);
+                    await RefreshAsync(cacheKey);
+                }
                 var cachedData = await _cache.GetStringAsync(cacheKey);
                 if (cachedData != null)
                 {
@@ -63,7 +73,7 @@ namespace Ejaz.Controllers
 
                     await _cache.SetStringAsync(cacheKey, serializedBooks, new DistributedCacheEntryOptions
                     {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10)
                     });
 
                     return Ok(items);
@@ -82,6 +92,11 @@ namespace Ejaz.Controllers
                 stopwatch.Stop();
                 _logger.LogInformation("getBooks endpoints completed in ${Elapsedmilliseconds} ms", stopwatch.ElapsedMilliseconds);
             }
+        }
+        public async Task RefreshAsync(string key)
+        {
+
+            await _cache.RemoveAsync(key);
         }
 
         [AllowAnonymous]
