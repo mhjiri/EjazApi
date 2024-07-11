@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Alachisoft.NCache.OpenSource.SDK" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.18" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="React.Core" Version="5.2.12" />
