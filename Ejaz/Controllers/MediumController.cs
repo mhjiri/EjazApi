@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Core;
-using Domain;
+﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using MediatR;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Application.Media;
 using Application.Media.Core;
 
 namespace Ejaz.Controllers
 {
+    [ResponseCache(CacheProfileName = "Default604800")]
     public class MediumController : BaseApiController
     {
         [AllowAnonymous]
@@ -39,7 +32,7 @@ namespace Ejaz.Controllers
 
         [AllowAnonymous]
         [HttpPost("createMedium")]
-        public async Task<IActionResult> CreateMedium([FromForm] MediumFileCmdDto medium)
+        public async Task<IActionResult> CreateMedium([FromForm] MediumCmdDto medium)
         {
             return HandleResult(await mdtr.Send(new Create.Command { Medium = medium }));
 
